@@ -1,14 +1,14 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
-import { usersDb } from '../database/database';
+import { DB } from '../database/database';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class UserService {
   create(createUserDto: CreateUserDto) {
     if (!(createUserDto.login && createUserDto.password)) {
-      throw new BadRequestException('Invalid data'); // 400
+      throw new BadRequestException('Invalid data');
     }
 
     const newUser = {
@@ -19,7 +19,7 @@ export class UserService {
       createdAt: Number(Date.now()),
       updatedAt: Number(Date.now())
     };
-    usersDb.push(newUser);
+    DB.users.push(newUser);
 
     const { ...rest } = newUser;
     delete rest.password;
@@ -27,7 +27,7 @@ export class UserService {
   }
 
   findAll() {
-    return usersDb;
+    return DB.users;
   }
 
   findOne(id: string) {
@@ -40,12 +40,12 @@ export class UserService {
       typeof updatePasswordDto.oldPassword !== 'string' ||
       typeof updatePasswordDto.newPassword !== 'string'
     ) {
-      throw new BadRequestException('Invalid data'); // 400
+      throw new BadRequestException('Invalid data');
     }
 
     const oldUser = this.validateUserId(id);
     if (updatePasswordDto.oldPassword !== oldUser.password) {
-      throw new ForbiddenException('Old password is wrong'); // 403
+      throw new ForbiddenException('Old password is wrong');
     }
 
     const version = oldUser.version + 1;
@@ -56,8 +56,8 @@ export class UserService {
       updatedAt: Number(Date.now())
     };
 
-    const index = usersDb.findIndex((item) => item.id === id);
-    usersDb[index] = newUser;
+    const index = DB.users.findIndex((item) => item.id === id);
+    DB.users[index] = newUser;
 
     delete newUser.password;
     return newUser;
@@ -65,15 +65,15 @@ export class UserService {
 
   remove(id: string) {
     this.validateUserId(id);
-    const index = usersDb.findIndex((item) => item.id === id);
-    usersDb.splice(index, 1);
+    const index = DB.users.findIndex((item) => item.id === id);
+    DB.users.splice(index, 1);
     return 'User is found and deleted';
   }
 
   private validateUserId(id: string) {
-    const user = usersDb.find((item) => item.id === id);
+    const user = DB.users.find((item) => item.id === id);
     if (!user) {
-      throw new NotFoundException('This user is not exist'); // 404
+      throw new NotFoundException('This user is not exist');
     }
 
     return user;
