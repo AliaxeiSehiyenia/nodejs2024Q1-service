@@ -1,3 +1,6 @@
-import { IUser } from '../interfaces';
+import { IArtist, IUser } from '../interfaces';
 
-export const usersDb: IUser[] = [];
+export const DB = {
+  users: [] as IUser[],
+  artists: [] as IArtist[],
+}
