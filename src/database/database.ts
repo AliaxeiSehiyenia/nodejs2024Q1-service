@@ -5,4 +5,9 @@ export const DB = {
   artists: [] as IArtist[],
   albums: [] as IAlbum[],
   tracks: [] as ITrack[],
-}
+  favorites: {
+    albums: [],
+    artists: [],
+    tracks: []
+  }
+};
