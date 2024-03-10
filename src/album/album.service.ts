@@ -57,8 +57,11 @@ export class AlbumService {
   remove(id: string) {
     this.validateAlbumId(id);
     const index = DB.albums.findIndex((item) => item.id === id);
+    DB.tracks.map((track) => {
+      if (track.albumId === id) track.albumId = null;
+    });
     DB.albums.splice(index, 1);
-    return null;
+    return 'Album is found and deleted';
   }
 
   private validateAlbum(albumDto: CreateAlbumDto | UpdateAlbumDto) {

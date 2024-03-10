@@ -52,8 +52,11 @@ export class ArtistService {
     const index = DB.artists.findIndex((item) => item.id === id);
     if (index === -1) throw new NotFoundException('This artist is not exist');
 
-    DB.artists.map((album) => {
-      if (album.id === id) album.id = null;
+    DB.albums.map((album) => {
+      if (album.artistId === id) album.artistId = null;
+    });
+    DB.tracks.map((track) => {
+      if (track.artistId === id) track.artistId = null;
     });
 
     DB.artists.splice(index, 1);

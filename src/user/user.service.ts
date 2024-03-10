@@ -1,4 +1,9 @@
-import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { DB } from '../database/database';
@@ -17,7 +22,7 @@ export class UserService {
       password: createUserDto.password,
       version: 1,
       createdAt: Number(Date.now()),
-      updatedAt: Number(Date.now())
+      updatedAt: Number(Date.now()),
     };
     DB.users.push(newUser);
 
@@ -53,7 +58,7 @@ export class UserService {
       ...oldUser,
       password: updatePasswordDto.newPassword,
       version: version,
-      updatedAt: Number(Date.now())
+      updatedAt: Number(Date.now()),
     };
 
     const index = DB.users.findIndex((item) => item.id === id);
