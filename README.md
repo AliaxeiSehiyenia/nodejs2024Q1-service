@@ -70,3 +70,17 @@ npm run format
 Press <kbd>F5</kbd> to debug.
 
 For more information, visit: https://code.visualstudio.com/docs/editor/debugging
+
+### Postman
+
+You can find Postman collection with all relized API requests in the root of the repository.
+
+## Prerequisites
+
+1. Git clone: https://github.com/AliaxeiSehiyenia/nodejs2024Q1-service/tree/develop
+2. Go to develop branch.
+3. To install all dependencies with --force flag. 
+```
+   npm install --force
+```
+4. Create file ".env". Copy ".env.example" to ".env"
